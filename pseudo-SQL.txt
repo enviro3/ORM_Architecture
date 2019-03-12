@@ -1,0 +1,120 @@
+How application might perform tasks through an ORM
+
+ORM maps SQL data to objects in a programming language, so the developer can focus on the task at hand rather than the tedium of SQL.
+
+remove duplicates in a query response
+
+psuedo-code
+posts = posts.all.uniq
+
+SQL
+SELECT DISTINCT post.title
+FROM posts
+
+
+filter records using inequalities, pattern matching, ranges, and boolean logic
+
+psuedo-code
+
+post = post.id != 1
+post.name = post.where("people.name LIKE :happy")
+post.where(id: 1..4)
+post.where(id >= 10 && name == "Marketing Plan")
+
+
+
+SQL
+
+SELECT post.name
+from posts
+WHERE post.id <> 1;
+
+SELECT post.name
+from posts
+WHERE post.name LIKE '%happy%';
+
+SELECT post.id
+FROM posts
+WHERE post.id BETWEEN 1 AND 4;
+
+SELECT post.id, post.name
+FROM posts
+WHERE post.id >= 10 AND post.name = "Marketing Plan"
+
+
+
+
+
+
+
+
+
+
+sort records in a particular order
+
+psuedo-code
+posts.sort_by(&:length)
+
+SQL
+SELECT post.title
+FROM posts
+ORDER BY post.id ASC
+
+
+limit the number of records returned
+
+psuedo-code
+post.all.paginate(:page => limit(1))
+
+SQL
+SELECT *
+FROM posts
+limit 1
+
+
+
+group records into sections
+
+psuedo-code
+(posts.id).group_by{|i| i%2}
+
+SQL
+
+SELECT *
+FROM posts
+GROUP BY posts.title
+
+
+
+
+
+perform calculations using aggregate functions
+
+psuedo-code
+sum_posts = posts.all.sum()
+
+SQL
+SELECT SUM(comments)
+FROM posts
+
+
+
+
+join tables using cross join, inner join, and outer join
+
+psuedo-code
+post = Post.all.first
+comments = post.comments
+
+SQL
+SELECT *
+FROM posts
+CROSS JOIN comments
+
+SELECT *
+FROM posts
+INNER JOIN comments
+
+SELECT *
+FROM posts
+OUTER JOIN comments
